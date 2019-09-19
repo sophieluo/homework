@@ -8,7 +8,15 @@ total_human_score_this_turn = 0
 def main():
     # start execution
     """the main() function is where the program starts execution.
-    The lines at the bottom t runs the main function"""
+    The lines at the bottom runs the main function"""
+
+    # re-initialized parameters
+    global current_computer_score
+    global current_human_score
+    global total_human_score_this_turn
+    current_computer_score = 0
+    current_human_score = 0
+    total_human_score_this_turn = 0
 
     # calls the function print_instructions, which prints out the instructions for this game
     print_instructions()
@@ -44,7 +52,7 @@ def computer_move(computer_score, human_score):
     print("computer score before rolling is " + str(current_computer_score))
 
     # computer rolls a random number between 1 and 6, inclusive
-    computer_rolled_number = random.randint(1, 6)
+    computer_rolled_number = random_draw(1, 6)
 
     # if computer rolls a 6, set it to 0 (according to the rules)
     if computer_rolled_number == 6:
@@ -54,7 +62,8 @@ def computer_move(computer_score, human_score):
     current_computer_score = current_computer_score + computer_rolled_number
 
     # displays computer score after this roll
-    print("computer score after rolling is " + str(current_computer_score))
+    print("computer rolled a " + str(computer_rolled_number) + ". computer score after rolling is " + str(
+        current_computer_score))
 
     # calls human_move function. now it's the human's turn!
     human_move(current_computer_score, current_human_score)
@@ -72,6 +81,7 @@ def human_move(computer_score, human_score):
 
     # set the total_human_score_this_turn to be a global variable and set it to 0
     global total_human_score_this_turn
+    print("initialize this turn to 0")
     total_human_score_this_turn = 0
 
     # human starts to roll. For each turn, human has to roll at least once,
@@ -81,17 +91,22 @@ def human_move(computer_score, human_score):
 
 def is_game_over(computer_score, human_score):
     """ this function checks if either either gets to >= 50.
-    it returns True if either player <=50, and the players ar NOT tied"""
+    it calls show_final_result function if either player <=50, and the players ar NOT tied"""
 
-    print("calling is_game_over")
-
-    # TODO: should return True if >=50 and not tied
+    print("checking if either player reaches 50...")
 
     # checks if either player >= 50
     if current_computer_score >= 50 or current_human_score >= 50:
-        print("game is over. checking results")
-        show_final_results(current_computer_score, current_human_score)
-        # return True
+
+        # checks if tied
+        # if tied, calls computer move so both computer and human gets one more chance to roll
+        if current_human_score == current_computer_score:
+            computer_move(current_computer_score, current_human_score)
+
+        # if not tied, returns True. game is over
+        else:
+            print("game is over. checking results")
+            show_final_results(current_computer_score, current_human_score)
 
     # both players are not 50 yet, asks human whether to roll again
     else:
@@ -102,59 +117,74 @@ def roll():
     """ this function returns a random number 1-6, inclusive"""
 
     print("human starts to roll")
-    while True:
-        global current_human_score
+    # while ask_yes_or_no():
+    global current_human_score
 
-        # rolls a random number from 1-6, inclusive and stores it in a variable called rolled_number
-        rolled_number = random.randint(1, 6)
+    # rolls a random number from 1-6, inclusive and stores it in a variable called rolled_number
+    rolled_number = random_draw(1, 5)
 
-        # prints out the rolled number
-        print("rolled number is " + str(rolled_number))
+    # prints out the rolled number
+    print("rolled number is " + str(rolled_number))
+    global total_human_score_this_turn
 
-        # checks if rolled number is 6.
-        # if it's not 6, increment current_human_score by the rolled number. then calculate total_human_score_this_turn
-        # if it is 6, set current_human_score to 0. the human ends this turn with 0
-        if rolled_number != 6:
-            current_human_score += rolled_number
+    # checks if rolled number is 6.
+    # if it's not 6, increment current_human_score by the rolled number. then calculate total_human_score_this_turn
+    # if it is 6, set current_human_score to 0. the human ends this turn with 0
+    if rolled_number != 6:
+        current_human_score += rolled_number
 
-            # calculates human's score for this turn (one turn is one or multiple draws)
-            global total_human_score_this_turn
-            total_human_score_this_turn += rolled_number
+        # calculates human's score for this turn (one turn is one or multiple draws)
+        total_human_score_this_turn += rolled_number
 
-            # prints out the updated human score after this roll (not this turn)
-            print("updated human score is " + str(current_human_score))
+        # prints out the updated human score after this roll (not this turn)
+        print("updated human score is " + str(current_human_score))
 
-            # checks if any of current_human_score or current_computer_score gets greater than 50
-            # checks this only after human rolls because computer rolls first. humans should get one more turn
-            is_game_over(current_computer_score, current_human_score)
+        # checks if any of current_human_score or current_computer_score gets greater than 50
+        # checks this only after human rolls because computer rolls first. humans should get one more turn
+        is_game_over(current_computer_score, current_human_score)
 
-        # if the rolled number is 6
-        else:
-            print("oops, rolled a 6")
+    # if the rolled number is 6
+    else:
+        print("oops, rolled a 6. it's now computer's turn")
 
-            # revert current_human_score to its value at the end of last turn by subtracting current_human_score
-            # by the number human cumulative during this turn
-            current_human_score = current_human_score - total_human_score_this_turn
+        # revert current_human_score to its value at the end of last turn by subtracting current_human_score
+        # by the number human cumulative during this turn
+        current_human_score = current_human_score - total_human_score_this_turn
+        computer_move(current_computer_score, current_human_score)
 
 
 def ask_yes_or_no():
-    # ask_yes_or_no(prompt)?
-    # print user prompt like "Roll again?"
-    prompt = input("roll again?")
+    """ this function asks the user (human) whether to roll again
+    calls roll() if human inputs yes or any string starting with y, roll again
+    checks current status then proceeds to computer_move if human chooses not to roll again
+    repeat this question if human did not enter yes or no"""
+
+    # stores user input in a variable called prompt
+    prompt = input("Nobody reaches 50. roll again?")
+
+    # if the first letter of prompt is y or Y, returns true
     if prompt[0] == "y" or prompt[0] == "Y":
-        return True
+        roll()
+
+    # if first letter of prompt is n or N, checks current status then proceeds to computer_move
     elif prompt[0] == "n" or prompt[0] == "N":
         show_current_status(current_computer_score, current_human_score)
         computer_move(current_computer_score, current_human_score)
+
+    # if now acceptable answer is given, repeats the question
     else:
         ask_yes_or_no()
 
 
 def show_current_status(computer_score, human_score):
-    # prints the user's current score and the computer's current score,
-    # how far behind the user is, or if there is a tie.
-    # call this before and after the human's move
+    """prints the user's current score and the computer's current score,
+     also prints how far behind the user is, or if there is a tie.
+     this is called before AND after the human's move"""
+
+    # prints human score and computer score
     print("human score is now " + str(current_human_score) + ". computer score is now " + str(current_computer_score))
+
+    # compares human score and computer score to determine who wins and if there's a tie
     if current_human_score - current_computer_score > 0:
         print("human is leading computer by " + str(current_human_score - current_computer_score))
     elif current_human_score - current_computer_score == 0:
@@ -164,8 +194,13 @@ def show_current_status(computer_score, human_score):
 
 
 def show_final_results(computer_score, human_score):
-    # whether the human win or lost, and by how much (Hint: call this when the game has ended)
-    print("calling show_final_results")
+    """ after one side reaches 50, this function is called to determine who wins.
+    returns a statement about whether human or computer wins, and by how much"""
+
+    # after game ends, checks final results
+    print("checking final results...")
+
+    # checks final score and announces winner
     if current_computer_score > current_human_score:
         print("computer wins!")
     elif current_computer_score < current_human_score:
@@ -173,6 +208,32 @@ def show_final_results(computer_score, human_score):
     else:
         print("computer and human are tied!")
 
+    play_again()
 
+
+def play_again():
+    """asks if user wants to play again
+    """
+    is_again = input("Do you want to play again?")
+    ask_user_yes_or_no(is_again)
+
+
+# helper functions below
+def ask_user_yes_or_no(user_input):
+    if user_input[0] == "y" or user_input[0] == "Y":
+        print("Great! Let's try one more time!")
+        main()
+    elif user_input[0] == "n" or user_input[0] == "N":
+        print("See you next time!")
+    else:
+        play_again()
+
+
+def random_draw(min, max):
+    return random.randint(min, max)
+
+
+# initialize game
 if __name__ == "__main__":
+    """ calls main() function to start the game!"""
     main()
