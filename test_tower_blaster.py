@@ -4,11 +4,11 @@ from tower_blaster import *
 
 
 class TestTowerBlaster(unittest.TestCase):
-    def test_setup_bricks(self):
-        self.assertEqual(True, False)
+    # def test_setup_bricks(self):
+    #     self.assertEqual(True, False)
 
-    def test_get_top_brick(self):
-        self.assertEqual(setup_bricks("[1, 2, 3]"), 1)
+    def test_check_tower_blast(self):
+        self.assertEqual([1, 2, 3], True)
 
 
 if __name__ == '__main__':
