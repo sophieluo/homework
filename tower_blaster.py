@@ -147,12 +147,15 @@ def find_and_replace(new_brick, brick_to_be_replaced, tower, discard):
         return True
 
 
-
 def computer_play(tower, main_pile, discard):
     """computer's turn
     computer plays according to given strategy
     checks if stability has been achieved after computer replaced the card
     """
+    # starts computer's turn
+
+    # first checks if main_pile is empty
+    check_bricks(main_pile, discard)
 
     # todo: computer needs a better strategy
     print("###############")
@@ -173,9 +176,11 @@ def computer_play(tower, main_pile, discard):
         # remove brick to be replaced from main pile. no new card has been added to the main pile, so index is still 0
         piles_tuple[0].pop(0)
 
+    # check if stability is achieved
     if check_tower_blast(tower) == True:
         print("Computer Wins!")
     else:
+    # if not achieved, it's user's turn to play
         user_play(towers_tuple[0], main_pile, discard)
 
 
@@ -186,44 +191,76 @@ def user_play(tower, main_pile, discard):
     """
 
     # start user's turn
+
+    #first check if main_pile is empty
+    check_bricks(main_pile, discard)
+
     print("###############")
     print("NOW IT'S YOUR TURN!")
     print("Your Tower: ", tower)
     print("The top brick on the discard pile is", discard[0])
 
-    # todo: should pop brick from respective file after inserting
-
     which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
     if which_pile == "D":
         new_brick = discard[0]
         print("Your picked", new_brick, "from discard pile")
-        
+
+        # ask user input on where to put this brick
+        brick_to_be_replaced = int(input("Where do you want to place this brick? Type a brick number to replace in your tower."))
+
+        # calling find_and_replace function
+        # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
+
+        if brick_to_be_replaced in tower:
+            find_and_replace(new_brick, brick_to_be_replaced, tower, discard)
+        else:
+            brick_to_be_replaced = input("please enter a number in your tower")
+
+        # remove brick to be replaced from discard pile. one new card has been added to the top of the discard file,
+        # so index changes to 1
+        piles_tuple[1].pop(1)
+
     elif which_pile == "M":
         new_brick = main_pile[0]
         print("Your picked", new_brick, "from main pile")
-    # TODO: 'H for help'
+
+        # ask user input on where to put this brick
+        brick_to_be_replaced = input("Where do you want to place this brick? Type a brick number to replace in your tower. "
+                  "Type 'reject' to skip your turn")
+
+        # calling find_and_replace function
+        # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
+        # user can skip this turn by typing reject
+
+        if brick_to_be_replaced == 'reject':
+            computer_play(towers_tuple[1], main_pile, discard)
+        else:
+            try:
+                brick_to_be_replaced = int(brick_to_be_replaced)
+
+                if brick_to_be_replaced in tower:
+                    find_and_replace(new_brick, int(brick_to_be_replaced), tower, discard)
+                else:
+                    brick_to_be_replaced = input("please enter a number in your tower")
+            except ValueError as e:
+                brick_to_be_replaced = input("please enter a number in your tower")
+
+        # remove brick to be replaced from main pile. no new card has been added to the main pile, so index is still 0
+        piles_tuple[0].pop(0)
+
+    # TODO: 'H for help'. after help, where to go
     elif which_pile == "H":
         print("do you need help")
-    # TODO:repeat asking
+
+    # TODO: how to repeat asking
     else:
         var = which_pile == input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
 
-    # todo: if chooses a card from the main_pile, can reject and put it in discard
-
-    # calling find_and_replace function
-    # ask user input on where to put this brick
-    brick_to_be_replaced = int(input("Where do you want to place this brick? Type a brick number to replace in your tower."))
-
-    # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
-
-    if brick_to_be_replaced in tower:
-        find_and_replace(new_brick, brick_to_be_replaced, tower, main_pile)
-    else:
-        brick_to_be_replaced = input("please enter a number in your tower")
-
-    #checks if stability is achieved
+    # checks if stability is achieved
     if check_tower_blast(tower) == True:
         print("User Wins!")
+
+    # if not achieved, it's computer's turn to play
     else:
         computer_play(towers_tuple[1], main_pile, discard)
 
