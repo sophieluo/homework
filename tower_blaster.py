@@ -9,9 +9,6 @@ Statement of work: I have completed this assignment alone without help
 '''Tower Blaster, a game that involves re-arranging a group of bricks in order to have an increasing sequence'''
 
 
-# TODO: not sure why discard pile does not get updated after each round
-
-
 # functions
 def setup_bricks():
     """construct pile of 60 bricks, each numbers 1 to 60.
@@ -39,7 +36,6 @@ def shuffle_bricks(bricks):
     random.shuffle(bricks)
 
 
-# todo: need to call this every time user/computer starts to replace cards
 def check_bricks(main_pile, discard):
     """checks if there's any cards left in the given main pile of bricks.
     If not, shuffle the discard pile and move those bricks to the main pile.
@@ -65,7 +61,6 @@ def check_tower_blast(tower):
     return stability
 
 
-# todo: this is also used during each player's turn. check to make sure
 def get_top_brick(brick_pile):
     """Remove and return the top brick from any given pile of bricks.
     It is used at the start of game play for dealing bricks and during each player’s turn to take the top brick from
@@ -75,6 +70,7 @@ def get_top_brick(brick_pile):
 
     # remove and return the first element of a list
     dealt_card = brick_pile.pop(0)
+
     return dealt_card
 
 
@@ -166,15 +162,12 @@ def computer_play(tower, main_pile, discard):
     brick_to_be_replaced = max(tower)
 
     if discard[0] < 30:
-        find_and_replace(discard[0], brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
+        new_brick = get_top_brick(discard)
+        find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
 
-        # remove brick to be replaced from discard pile. one new card has been added to the top of the discard file,
-        # so index changes to 1
-        piles_tuple[1].pop(1)
     else:
-        find_and_replace(main_pile[0], brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
-        # remove brick to be replaced from main pile. no new card has been added to the main pile, so index is still 0
-        piles_tuple[0].pop(0)
+        new_brick = get_top_brick(main_pile)
+        find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
 
     # check if stability is achieved
     if check_tower_blast(tower) == True:
@@ -185,6 +178,8 @@ def computer_play(tower, main_pile, discard):
 
 
 def user_play(tower, main_pile, discard):
+    # todo: need some module for replace strategies and action taking
+
     """prompts user to choose which pile to get card from.
     then prompts user to choose which card to be replaced.
     checks if stability has been achieved after user replaced designated card
@@ -192,7 +187,7 @@ def user_play(tower, main_pile, discard):
 
     # start user's turn
 
-    #first check if main_pile is empty
+    # first check if main_pile is empty
     check_bricks(main_pile, discard)
 
     print("###############")
@@ -202,7 +197,7 @@ def user_play(tower, main_pile, discard):
 
     which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
     if which_pile == "D":
-        new_brick = discard[0]
+        new_brick = get_top_brick(discard)
         print("Your picked", new_brick, "from discard pile")
 
         # ask user input on where to put this brick
@@ -216,12 +211,8 @@ def user_play(tower, main_pile, discard):
         else:
             brick_to_be_replaced = input("please enter a number in your tower")
 
-        # remove brick to be replaced from discard pile. one new card has been added to the top of the discard file,
-        # so index changes to 1
-        piles_tuple[1].pop(1)
-
     elif which_pile == "M":
-        new_brick = main_pile[0]
+        new_brick = get_top_brick(main_pile)
         print("Your picked", new_brick, "from main pile")
 
         # ask user input on where to put this brick
@@ -244,9 +235,6 @@ def user_play(tower, main_pile, discard):
                     brick_to_be_replaced = input("please enter a number in your tower")
             except ValueError as e:
                 brick_to_be_replaced = input("please enter a number in your tower")
-
-        # remove brick to be replaced from main pile. no new card has been added to the main pile, so index is still 0
-        piles_tuple[0].pop(0)
 
     # TODO: 'H for help'. after help, where to go
     elif which_pile == "H":

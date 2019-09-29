@@ -25,9 +25,6 @@ class TestTowerBlaster(unittest.TestCase):
 
     def test_add_brick_to_discard(self):
 
-        # discard = [1, 2, 3]
-        # brick = 0
-
         self.assertEqual(add_brick_to_discard(0, [1, 2, 3]), [0, 1, 2, 3])
 
     def test_find_and_replace(self):
