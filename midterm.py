@@ -1,6 +1,9 @@
 # MIDTERM PLANNING
 # TO BE COMPLETED BEFORE 10/9
 
+# GENERAL
+# TODO 1: McNulty Leadership
+
 # ACCT
 # TODO 1. Lecture notes from statement of cash flows
 # TODO 2. Redo quiz 1 and quiz 2

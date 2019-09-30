@@ -9,6 +9,16 @@ Statement of work: I have completed this assignment alone without help
 '''Tower Blaster, a game that involves re-arranging a group of bricks in order to have an increasing sequence'''
 
 
+def instruction():
+    is_start = input("Tower Blaster, a game that involves re-arranging a group of bricks in order to have an increasing sequence."
+          "To start, type 'start'")
+
+    if is_start == "start":
+        main()
+    else:
+        instruction()
+
+
 # functions
 def setup_bricks():
     """construct pile of 60 bricks, each numbers 1 to 60.
@@ -173,7 +183,7 @@ def computer_play(tower, main_pile, discard):
     if check_tower_blast(tower) == True:
         print("Computer Wins!")
     else:
-    # if not achieved, it's user's turn to play
+        # if not achieved, it's user's turn to play
         user_play(towers_tuple[0], main_pile, discard)
 
 
@@ -195,13 +205,15 @@ def user_play(tower, main_pile, discard):
     print("Your Tower: ", tower)
     print("The top brick on the discard pile is", discard[0])
 
-    which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
+    which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick, 'H' for help" )
     if which_pile == "D":
         new_brick = get_top_brick(discard)
         print("Your picked", new_brick, "from discard pile")
 
         # ask user input on where to put this brick
-        brick_to_be_replaced = int(input("Where do you want to place this brick? Type a brick number to replace in your tower."))
+        brick_to_be_replaced = int(
+            input("Where do you want to place this brick? "
+                  "Type a brick number to replace in your tower."))
 
         # calling find_and_replace function
         # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
@@ -216,8 +228,9 @@ def user_play(tower, main_pile, discard):
         print("Your picked", new_brick, "from main pile")
 
         # ask user input on where to put this brick
-        brick_to_be_replaced = input("Where do you want to place this brick? Type a brick number to replace in your tower. "
-                  "Type 'reject' to skip your turn")
+        brick_to_be_replaced = input("Where do you want to place this brick?"
+                                     "Type a brick number to replace in your tower. "
+                                     "Type 'reject' to skip your turn")
 
         # calling find_and_replace function
         # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
@@ -238,14 +251,24 @@ def user_play(tower, main_pile, discard):
 
     # TODO: 'H for help'. after help, where to go
     elif which_pile == "H":
-        print("do you need help")
+
+        is_help = input("Do you need help? Type yes or no")
+
+        # if user wants help. prints instruction again. Then re-start game.
+        if is_help == "yes" or is_help == "Yes" or is_help == "y":
+            instruction()
+
+        # if user doesn't need help. Skip user's current turn and go to computer's turn.
+        else:
+            print("Skipping your turn. Go to computer's turn")
+            computer_play(towers_tuple[1], main_pile, discard)
 
     # TODO: how to repeat asking
     else:
         var = which_pile == input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
 
     # checks if stability is achieved
-    if check_tower_blast(tower) == True:
+    if check_tower_blast(tower):
         print("User Wins!")
 
     # if not achieved, it's computer's turn to play
@@ -278,4 +301,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
