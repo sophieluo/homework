@@ -10,8 +10,9 @@ Statement of work: I have completed this assignment alone without help
 
 
 def instruction():
-    is_start = input("Tower Blaster, a game that involves re-arranging a group of bricks in order to have an increasing sequence."
-          "To start, type 'start'")
+    is_start = input(
+        "Tower Blaster, a game that involves re-arranging a group of bricks in order to have an increasing sequence."
+        "To start, type 'start'")
 
     if is_start == "start":
         main()
@@ -168,30 +169,43 @@ def computer_play(tower, main_pile, discard):
     print("COMPUTER'S TURN")
     print("Computer's Tower:", tower)
 
-    # replace the largest brick in the tower
-    brick_to_be_replaced = max(tower)
+    # first evaluate first card on discard pile
 
-    # seudo-code:
-    # computer's strategy:
+    if discard[0] > 50:
+        # if first card on discard pile > 50, set new_brick to the top card
+        print("discard is", discard[0])
 
-    # 1. choose from main_pile:
-    # get first from main_pile
-    # if it is larger than 50, compare it with the last element
-    #     if greater than last element
-    #         replace with the last element
-    #     if smaller than the last
-    #         compare with the second last
-    #     and so on
-    # else
-
-
-    if discard[0] < 30:
         new_brick = get_top_brick(discard)
-        find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
 
+        # compare new_brick with each card in computer_tower, starting from the last card
+        for i in range(len(tower) - 2, 0, -1):
+
+            # if new_brick is greater than a card from the last, replace it and break the loop
+            if new_brick > tower[i]:
+                brick_to_be_replaced = tower[i]
+                find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
+                break
+
+
+    # if the card from discard pile is not greater than 50, get a mysterious card from main pile
     else:
         new_brick = get_top_brick(main_pile)
-        find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
+
+        # compare new_brick to each card in the tower, starting from the first
+        for i in range(0, len(tower) - 1):
+
+            # if new_brick is smaller than the card it is comparing to, replace that card and break the loop
+            if new_brick < tower[i]:
+
+                brick_to_be_replaced = tower[i]
+                find_and_replace(new_brick, brick_to_be_replaced, towers_tuple[1], piles_tuple[1])
+                i += 1
+                break
+
+        # if new brick is greater than any brick in the pile, replace it with the last brick,
+            elif new_brick > max(tower):
+                find_and_replace(new_brick, tower[len(tower)-1], towers_tuple[1], piles_tuple[1])
+
 
     # check if stability is achieved
     if check_tower_blast(tower) == True:
@@ -202,7 +216,6 @@ def computer_play(tower, main_pile, discard):
 
 
 def user_play(tower, main_pile, discard):
-
     """prompts user to choose which pile to get card from.
     then prompts user to choose which card to be replaced.
     checks if stability has been achieved after user replaced designated card
@@ -218,7 +231,7 @@ def user_play(tower, main_pile, discard):
     print("Your Tower: ", tower)
     print("The top brick on the discard pile is", discard[0])
 
-    which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick, 'H' for help" )
+    which_pile = input("Type 'D' to take the discard brick, 'M' for a mysterious brick, 'H' for help")
     if which_pile == "D":
         new_brick = get_top_brick(discard)
         print("Your picked", new_brick, "from discard pile")
@@ -257,7 +270,6 @@ def user_play(tower, main_pile, discard):
             except ValueError as e:
                 brick_to_be_replaced = input("please enter a number in your tower")
 
-
     elif which_pile == "H":
 
         is_help = input("Do you need help? Type yes or no")
@@ -274,7 +286,7 @@ def user_play(tower, main_pile, discard):
     else:
         print("Let's try again. Type 'D' to take the discard brick, 'M' for a mysterious brick")
 
-        #restart user's current turn
+        # restart user's current turn
         user_play(towers_tuple[0], main_pile, discard)
 
     # checks if stability is achieved
