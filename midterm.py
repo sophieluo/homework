@@ -5,7 +5,7 @@
 # TODO 1: McNulty Leadership
 
 # ACCT
-# TODO 1. Lecture notes from statement of cash flows
+# TODO 1. COMPLETED!! Lecture notes from statement of cash flows
 # TODO 2. Redo quiz 1 and quiz 2
 # TODO 3. Redo homework 1
 # TODO 4. Create a cheat sheet
