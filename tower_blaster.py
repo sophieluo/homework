@@ -160,7 +160,7 @@ def computer_play(tower, main_pile, discard):
     """
     # starts computer's turn
 
-    # first checks if main_pile is empty
+    # first check if main_pile is empty
     check_bricks(main_pile, discard)
 
     # todo: computer needs a better strategy
@@ -170,6 +170,20 @@ def computer_play(tower, main_pile, discard):
 
     # replace the largest brick in the tower
     brick_to_be_replaced = max(tower)
+
+    # seudo-code:
+    # computer's strategy:
+
+    # 1. choose from main_pile:
+    # get first from main_pile
+    # if it is larger than 50, compare it with the last element
+    #     if greater than last element
+    #         replace with the last element
+    #     if smaller than the last
+    #         compare with the second last
+    #     and so on
+    # else
+
 
     if discard[0] < 30:
         new_brick = get_top_brick(discard)
@@ -188,7 +202,6 @@ def computer_play(tower, main_pile, discard):
 
 
 def user_play(tower, main_pile, discard):
-    # todo: need some module for replace strategies and action taking
 
     """prompts user to choose which pile to get card from.
     then prompts user to choose which card to be replaced.
@@ -217,11 +230,7 @@ def user_play(tower, main_pile, discard):
 
         # calling find_and_replace function
         # check if the brick user inputs (brick_to_be_replaced) is actually the user's pile
-
-        if brick_to_be_replaced in tower:
-            find_and_replace(new_brick, brick_to_be_replaced, tower, discard)
-        else:
-            brick_to_be_replaced = input("please enter a number in your tower")
+        brick_in_tower(new_brick, brick_to_be_replaced, tower, discard)
 
     elif which_pile == "M":
         new_brick = get_top_brick(main_pile)
@@ -242,14 +251,13 @@ def user_play(tower, main_pile, discard):
             try:
                 brick_to_be_replaced = int(brick_to_be_replaced)
 
-                if brick_to_be_replaced in tower:
-                    find_and_replace(new_brick, int(brick_to_be_replaced), tower, discard)
-                else:
-                    brick_to_be_replaced = input("please enter a number in your tower")
+                # checks if the brick user enters is actually in the tower
+                brick_in_tower(new_brick, brick_to_be_replaced, tower, discard)
+
             except ValueError as e:
                 brick_to_be_replaced = input("please enter a number in your tower")
 
-    # TODO: 'H for help'. after help, where to go
+
     elif which_pile == "H":
 
         is_help = input("Do you need help? Type yes or no")
@@ -263,9 +271,11 @@ def user_play(tower, main_pile, discard):
             print("Skipping your turn. Go to computer's turn")
             computer_play(towers_tuple[1], main_pile, discard)
 
-    # TODO: how to repeat asking
     else:
-        var = which_pile == input("Type 'D' to take the discard brick, 'M' for a mysterious brick")
+        print("Let's try again. Type 'D' to take the discard brick, 'M' for a mysterious brick")
+
+        #restart user's current turn
+        user_play(towers_tuple[0], main_pile, discard)
 
     # checks if stability is achieved
     if check_tower_blast(tower):
@@ -274,6 +284,18 @@ def user_play(tower, main_pile, discard):
     # if not achieved, it's computer's turn to play
     else:
         computer_play(towers_tuple[1], main_pile, discard)
+
+
+def brick_in_tower(new_brick, brick_to_be_replaced, tower, discard):
+    """checks if the brick user picks is actually in the tower"""
+
+    if brick_to_be_replaced in tower:
+        find_and_replace(new_brick, brick_to_be_replaced, tower, discard)
+
+    else:
+        brick_to_be_replaced = int(input("please enter a number in your tower"))
+
+        brick_in_tower(new_brick, brick_to_be_replaced, tower, discard)
 
 
 def main():
