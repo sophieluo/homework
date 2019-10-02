@@ -19,6 +19,7 @@
 # TODO 3. Lecture notes 8-12
 # TODO 4. Redo quiz 1
 # TODO 5: Redo quiz 2
+# TODO 6: Stats team installment 2
 
 
 # MEGC
