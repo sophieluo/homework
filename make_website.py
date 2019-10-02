@@ -100,8 +100,20 @@ def detect_email(text):
 def detect_courses(text):
     """extracts courses from the file"""
 
+    # look for the word "Course" and extract that line
+    for i in range(0, len(text)):
+        if "Courses" in text[i]:
+            courses = text[i].split(',')
 
-    pass
+    for course in courses:
+        # remove trailing and heading whitespace
+        course = course.strip()
+
+# TODO: remove "all heading expressions before the first actual course"
+    courses[0] = courses[0][7: len(courses[0])].strip()
+    print(courses)
+
+    return courses
 
 
 def detect_projects():
@@ -133,13 +145,13 @@ def main():
     resume_texts_list = read_resume("resume.txt")
 
     # returns name as a list, with first element being the first name, and last element being the last name
-    print('student name is', detect_name(resume_texts_list))
+    print('1. student name is', detect_name(resume_texts_list))
 
     # returns email address
-    print('student email address is', detect_email(resume_texts_list))
+    print('2. student email address is', detect_email(resume_texts_list))
 
     # returns courses
-    print('students took', detect_courses(resume_texts_list), 'courses')
+    print('3. students took', detect_courses(resume_texts_list), 'courses')
 
 
 if __name__ == "__main__":
