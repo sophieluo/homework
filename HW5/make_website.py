@@ -105,20 +105,51 @@ def detect_courses(text):
         if "Courses" in text[i]:
             courses = text[i].split(',')
 
-    for course in courses:
-        # remove trailing and heading whitespace
-        course = course.strip()
-
-# TODO: remove "all heading expressions before the first actual course"
+    # remove the word "Courses"
     courses[0] = courses[0][7: len(courses[0])].strip()
-    print(courses)
+
+    # remove expressions that are not words/letters in the first element of the list courses
+    for j in range(0, len(courses[0])):
+        courses[0] = courses[0][1:]
+        if courses[0][j] in string.ascii_lowercase or courses[0][j] in string.ascii_uppercase:
+            break
+
+    # remove heading and trailing whitespace
+    for k in range(0, len(courses)):
+        courses[k] = courses[k].strip()
 
     return courses
 
 
-def detect_projects():
+def detect_projects(text):
     """extracts projects from the file"""
-    pass
+
+    projects = []
+
+    # look for the word "Projects" and extract that line
+    for i in range(0, len(text)):
+        if "Projects" in text[i]:
+
+            # appends every line after the line with the word "Projects" to the projects list
+            for j in range(i, len(text)-1):
+                projects.append(text[j+1])
+
+                # if there's a blank line, pop that line from the list
+                if text[j] == "":
+                    projects.pop(j-i-1)
+
+                # checks if the first 10 characters in the line (string) are 10 minus signs
+                # if reached the divider line, first pop the last element (the dividers already being added in),
+                # then break the loop
+                if text[j+1][0:10] == "----------":
+                    projects.pop()
+                    break
+
+    # removes heading and trailing whitespace
+    for i in range(0, len(projects)):
+        projects[i] = projects[i].strip()
+
+    return projects
 
 
 # programmatically write HTML
@@ -139,8 +170,6 @@ def surround_block(tag, text):
     pass
 
 
-
-
 def main():
     resume_texts_list = read_resume("resume.txt")
 
@@ -152,6 +181,9 @@ def main():
 
     # returns courses
     print('3. students took', detect_courses(resume_texts_list), 'courses')
+
+    # returns projects
+    print('4. student did', detect_projects(resume_texts_list), 'projects')
 
 
 if __name__ == "__main__":
