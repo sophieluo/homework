@@ -31,15 +31,15 @@ For example, Brandon’s submission would be lbrandon.zip. Please, no .rar files
 # graded: how well you unit test the functions
 
 
-def read_resume(file):
+def read_resume(file1):
     """reads the resume file and stores it in the program's memory"""
 
-    f = open(file, "r")
+    f = open(file1, "r")
 
     resume_texts_list = []
 
     # create a list and store info from the resume in the list
-    for line in open(file):
+    for line in open(file1):
         resume_texts_list.append(line.rstrip())
 
     # close file
@@ -162,15 +162,86 @@ def detect_projects(text):
 # o Add the last 2 lines of HTML back in
 # o Write the final HTML to a new file resume.html
 
+def read_template_and_append_new_file(file1, file2):
+
+    f = open(file1, "r+")
+    fout = open(file2, 'w')
+
+    # returns a string resume_html_template
+    resume_html_template = f.readlines()
+
+    # remove the last two lines of HTML
+    resume_html_template.pop()
+    resume_html_template.pop()
+
+    # add all HTML-formatted resume content
+
+    # add wrapper to HTML
+    resume_html_template.append("<div id='page-wrap'>")
+
+    # add name to HTML
+    name_list = detect_name(resume_texts_list)
+    name = str(name_list[0] + " " + name_list[1])
+
+    resume_html_template.append(surround_block('h1', name))
+
+    # add email to HTML
+    email = detect_email(resume_texts_list)
+    print(email)
+    resume_html_template.append(surround_block('a href', email))
+
+    # add courses to HTML
+
+
+    # add projects to HTML
+
+    # add closing tag of div
+    resume_html_template.append("</div>")
+
+    # add the last two lines back in
+    resume_html_template.append("\n</body>")
+    resume_html_template.append("\n</html>")
+
+    # covert list to string
+    resume_html_template = "".join(resume_html_template)
+
+    # write the final html toa new file resume.html
+    fout.writelines(resume_html_template)
+
+    # close files
+    f.close()
+    fout.close()
+
+    return resume_html_template
+
 
 def surround_block(tag, text):
-    # o This function surrounds the given text with the given HTML tag and returns the string
-    # o For example, surround_block(‘h1’, ‘The Beatles’) would return ‘<h1>The Beatles</h1>’
+    """This function surrounds the given text with the given HTML tag and returns the string"""
 
-    pass
+    html_line = ""
+
+    # contructs html lines with tag and text
+    # case 1: writes header
+    if tag == 'h1':
+        print("writes header")
+        html_line = '<' + tag + '>' + text + '</' + tag + '>'
+
+    # case 2: writes email
+    elif tag == 'a href':
+        html_line = '<' + tag + '="mailto:' + text + '">' + text + '</a>'
+
+    # case 3: writes courses
+
+    # case 4: writes projects
+
+    return html_line
 
 
 def main():
+
+    global resume_texts_list
+    global resume_html_template
+
     resume_texts_list = read_resume("resume.txt")
 
     # returns name as a list, with first element being the first name, and last element being the last name
@@ -184,6 +255,9 @@ def main():
 
     # returns projects
     print('4. student did', detect_projects(resume_texts_list), 'projects')
+
+    # read resume html templates
+    print('5. the provided resume template is', read_template_and_append_new_file('resume_template.html', "resume.html"))
 
 
 if __name__ == "__main__":
