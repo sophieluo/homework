@@ -165,7 +165,7 @@ def detect_projects(text):
 def read_template_and_append_new_file(file1, file2):
 
     f = open(file1, "r+")
-    fout = open(file2, 'w')
+    fout = open(file2, 'a')
 
     # returns a string resume_html_template
     resume_html_template = f.readlines()
