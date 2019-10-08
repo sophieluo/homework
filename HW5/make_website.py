@@ -1,34 +1,9 @@
 import string
 
-"""homework 5 submissions"""
-
-"""You will submit the following 4 files:
-1. make_website.py: the program you wrote
-2. make_website_test.py [and other .txt files for testing]: the unit tests you wrote
-for all your functions and if you created other .txt files (
-e.g. different versions of your resume) to be read by your main program or your unit tests, 
-please include those in the .zip file. 
-Part of grading your assignment will be to run your unit tests. 
-We want to make sure they pass if they reference other .txt files.
-3. resume.txt: the text file you created to be read by your program
-4. resume.html: the resume file that was generated when you ran your program
-
-Please zip all 4 of these files and name the .zip file using your PennKey. 
-For example, Brandon’s submission would be lbrandon.zip. Please, no .rar files!"""
-
-
-# input test file:
-# resumes with some key points but unstructured
-# 1. top line contain just the name
-# 2. email address in single line
-# 3. list of projects listed line by line below a heading called "projects", ends with "--------" (>=10 -)
-# 4. list of courses, comma separated with word "Courses" in front of them, might have punctuation marks
-
-# TODO: Step 1: create a sample resume according to the above described format
-
-# TODO: write one function for each piece of info to extract from the text file
-# will be graded according to the modularity
-# graded: how well you unit test the functions
+'''
+Name: Xiexiao Luo
+PennID: 70364612
+'''
 
 
 def read_resume(file1):
@@ -152,20 +127,12 @@ def detect_projects(text):
     return projects
 
 
-# programmatically write HTML
-# get(extract) info from resume using this file, fill in the empty <body> element
-# in resume-template.html, and write the final HTML to a new file resume.html
-# Open and read resume-template.html
-# o Read every line of HTML
-# o Remove the last 2 lines of HTML (you’ll programmatically add these back later)
-# o Add all HTML-formatted resume content
-# o Add the last 2 lines of HTML back in
-# o Write the final HTML to a new file resume.html
-
 def read_template_and_append_new_file(file1, file2):
 
+    """This function writes html to the output file"""
+
     f = open(file1, "r+")
-    fout = open(file2, 'a')
+    fout = open(file2, 'w')
 
     # returns a string resume_html_template
     resume_html_template = f.readlines()
@@ -182,21 +149,30 @@ def read_template_and_append_new_file(file1, file2):
     # add name to HTML
     name_list = detect_name(resume_texts_list)
     name = str(name_list[0] + " " + name_list[1])
-
+    resume_html_template.append("<div>")
     resume_html_template.append(surround_block('h1', name))
 
     # add email to HTML
+    resume_html_template.append("\n<p>")
     email = detect_email(resume_texts_list)
-    print(email)
     resume_html_template.append(surround_block('a href', email))
-
-    # add courses to HTML
-
+    resume_html_template.append("</p>")
+    resume_html_template.append("</div>")
 
     # add projects to HTML
+    resume_html_template.append("\n<div>\n<h2>Projects</h2>\n<ul>")
+    projects = detect_projects(resume_texts_list)
+    resume_html_template.append(surround_block('Projects', projects))
+    resume_html_template.append("\n</ul>\n</div>")
+
+    # add courses to HTML
+    resume_html_template.append("\n<div>\n<h3>Courses</h3>")
+    courses = detect_courses(resume_texts_list)
+    resume_html_template.append(surround_block('Courses', courses))
+    resume_html_template.append("\n</div>")
 
     # add closing tag of div
-    resume_html_template.append("</div>")
+    resume_html_template.append("\n</div>")
 
     # add the last two lines back in
     resume_html_template.append("\n</body>")
@@ -223,16 +199,30 @@ def surround_block(tag, text):
     # contructs html lines with tag and text
     # case 1: writes header
     if tag == 'h1':
-        print("writes header")
-        html_line = '<' + tag + '>' + text + '</' + tag + '>'
+        html_line = '\n<' + tag + '>' + text + '</' + tag + '>'
 
     # case 2: writes email
     elif tag == 'a href':
-        html_line = '<' + tag + '="mailto:' + text + '">' + text + '</a>'
+        html_line = 'Email: ' + '<' + tag + '="mailto:' + text + '">' + text + '</a>'
 
-    # case 3: writes courses
+    # case 3: writes project
+    elif tag == 'Projects':
+        html_line = ""
 
-    # case 4: writes projects
+        # add each project to the end of the string
+        for project in text:
+            html_line = html_line + '\n<li>' + project + '</li>'
+
+    # case 4: writes courses
+    elif tag == 'Courses':
+        html_line = ""
+
+        # add each course to the end of the string
+        for i in range(0, len(text)-1):
+            html_line = html_line + '\n<span>' + text[i] + ', </span>'
+
+        # last course shouldn't have comma
+        html_line = html_line + '\n<span>' + text[len(text)-1] + '</span>'
 
     return html_line
 
