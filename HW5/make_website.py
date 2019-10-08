@@ -137,6 +137,8 @@ def read_template_and_append_new_file(file1, file2):
     # returns a string resume_html_template
     resume_html_template = f.readlines()
 
+    f.close()
+
     # remove the last two lines of HTML
     resume_html_template.pop()
     resume_html_template.pop()
@@ -185,7 +187,6 @@ def read_template_and_append_new_file(file1, file2):
     fout.writelines(resume_html_template)
 
     # close files
-    f.close()
     fout.close()
 
     return resume_html_template
