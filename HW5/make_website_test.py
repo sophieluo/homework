@@ -1,6 +1,6 @@
 import unittest
 
-from HW5.make_website import *
+from make_website import *
 
 
 class TestMakeWebsite(unittest.TestCase):
@@ -55,7 +55,7 @@ class TestMakeWebsite(unittest.TestCase):
         new_name = str(detect_name(self.new_resume)[0] + " " + detect_name(self.new_resume)[1])
         self.assertEqual("\n<h1>Sophie Luo</h1>", surround_block("h1", new_name))
 
-        # this doesn't pass because can't figure out ' and "
+        # the following test doesn't pass because can't figure out ' and "
         # error message:
         # - Email: <a href='mailto:tonyl@seas.upenn.edu'>tonyl@seas.upenn.edu</a>
         # ?                ^                           ^
