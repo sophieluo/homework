@@ -1,23 +1,20 @@
 # TODOLIST
 
-# GENERAL
-# TODO 1: McNulty Leadership - self + lydia + teddy
+
+# CIT 590
+# TODO: read 10/14 & 10/16 lecture slides on Java
+# TODO: HW due 10/24
 
 
-# ACCT
-# Acct cheatsheet: 1 double-sided
-# TODO 1. COMPLETED!! Lecture notes from statement of cash flows
-# TODO 2. Redo quiz 1 and quiz 2
-# TODO 3. Redo homework 1
-# TODO 4. Create a cheat sheet
-# TODO 5: Redo homework 2
+# WHCP
+# TODO: Pre-lesson 1 submission: strength and areas to improve
 
 
-# MEGC
-# Megc cheatsheet: 1 double-sided
-# TODO 1. Lecture notes
-# TODO 2. Re-do all homework practice problems
+# Y Prize
+# TODO:
 
 
+# OTHERS
+# TODO: McNulty Leadership - lydia + teddy
 # TODO: personal portfolio edit
 # TODO: resume in Chinese & send to Junlu Mao
