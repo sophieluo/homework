@@ -2,7 +2,7 @@
 
 
 # CIT 590
-# TODO: read 10/14 & 10/16 lecture slides on Java
+# TODO: read 10/16 lecture slides on Java
 # TODO: HW due 10/24
 
 
@@ -10,11 +10,16 @@
 # TODO: Pre-lesson 1 submission: strength and areas to improve
 
 
+# MGMT 801
+# TODO: initial venture proposal due on Friday?
+
+
 # Y Prize
-# TODO:
+# TODO: Reseach oil and gas, nuclear plant industries
 
 
 # OTHERS
-# TODO: McNulty Leadership - lydia + teddy
 # TODO: personal portfolio edit
-# TODO: resume in Chinese & send to Junlu Mao
+# TODO: Leo BP evaluation
+# TODO: Mei
+# TODO: Schedule an appointment with CIT dual degree coordinator at SEAS
