@@ -2,35 +2,58 @@
 
 
 # CIT 590
-# TODO: read lecture slides on Java
-# TODO: HW due 12/4!!
+# TODO: UnitTesting
+# TODO: Arrays and ArrayLists
+# TODO: Static
+# TODO: Polymorphism - Overloading
+# TODO: Polymorphism - Inheritance & Overriding
+# TODO: Access Modifiers
+# TODO: Abstract Classes
+# TODO: Interfaces
+# TODO: Debugging
+# TODO: File IO and Exceptions
+# TODO: Collections and Maps
+# TODO: Regex
+# TODO: Cheatsheet
+# TODO: Brandon's practice exam
+# TODO: Recitation practice exam
+# TODO: practice exam
+
 
 
 # MGMT 801
-# TODO: Mini pitch
 # TODO: Prepare for swag day
 # TODO: Final deck
 
 
+
 # MEGC 612
-# TODO: lecture notes
+# TODO: L4
+# TODO: L5
+# TODO: L6
+# TODO: L7
+# TODO: L8
+# TODO: L9
+# TODO: L10
+# TODO: L11
+
 
 
 # FNCE 612
+# TODO: Topic 1
+# TODO: Topic 2
+# TODO: Topic 3
+# TODO: Topic 4
+# TODO: Topic 5
+# TODO: Topic 6
+# TODO: Topic 7
+# TODO: Topic 8
+# TODO: Topic 9
 
-
-# WHCP 611
-# TODO: Submit 1-min speech script
-
-
-# ACCT 613
-# TODO: lecture slides
-# TODO: 2018 & 2019 quiz
 
 
 # OTHERS
 # TODO: personal portfolio edit
-# TODO: Sequoia Application
 # TODO: Boston trek planning kickoff
 # TODO: SF trek planning kickoff
 # TODO: GIP coordinator
